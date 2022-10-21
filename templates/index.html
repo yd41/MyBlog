@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh">
+{% load my_tag %}
+<head>
+    <meta charset="UTF-8">
+    <title>ymj个人博客</title>
+    <link rel="stylesheet" href="/static/my/css/reset.css">
+    <link rel="stylesheet" href="/static/my/css/index.css">
+    <link rel="stylesheet" href="/static/fontawesome-free-5.15.4-web/css/all.min.css">
+    <script src="/static/vue/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <link rel="stylesheet" :href="'/static/my/css/theme/'+theme+'.css'">
+
+    <nav>
+
+        <div class="left">
+            <a href="/">首页</a>
+            <a href="/news">新闻</a>
+            <a href="#">心情</a>
+            <a href="#">关于</a>
+        </div>
+
+        <div class="right">
+            {#            <a href="#" @click="setTheme('light')">白色主题</a>#}
+            {#            <a href="#" @click="setTheme('dark')">黑色主题</a>#}
+            <img v-show="theme=='light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
+            <img v-show="theme=='dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
+
+            <a href="#">登录</a>
+            <a href="#">注册</a>
+        </div>
+
+
+    </nav>
+
+
+    {% banner 'index' %}
+
+    <main>
+
+        {% block main %}
+
+            <div class="main">
+
+                <div class="left">
+
+                    <div class="boutique_article card">
+                        <div class="title">
+                            <h2>精选文章</h2>
+                            <div>
+                                <a href="#"> 查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <ul class="qianduan">
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hot_list card">
+                        <div class="title">
+                            <h2>今日热搜</h2>
+                            <div>
+                                <a href="#"> 查看更多</a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+
+                        </div>
+                    </div>
+                    <div class="all_article card">
+                        <div class="title">
+                            <h2>博客文章</h2>
+
+                        </div>
+                        <div class="body">
+                            <ul>
+                                <li>
+                                    <div class="left">
+                                        <div>
+                                            <img src="http://www.fengfengzhidao.com/media/article_img/671.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <h2><a href="#">JS格式化字符串（两种方法）</a></h2>
+                                        <p>
+                                            JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
+                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫
+                                            来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
+                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客
+                                        </p>
+                                        <div class="article_info">
+                                            <span>
+                                                <i class="far fa-clock"></i>2022-10-22
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-thumbs-up"></i>123
+                                            </span>
+                                            <span>
+                                                <i class="far fa-eye"></i>123
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-comments">123</i>
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-star-half-alt ">1234</i>
+                                            </span>
+                                        </div>
+                                        <a>查看详情</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <div>
+                                            <img src="http://www.fengfengzhidao.com/media/article_img/671.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <h2><a href="#">JS格式化字符串（两种方法）</a></h2>
+                                        <p>
+                                            JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
+                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫
+                                            来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
+                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客
+                                        </p>
+                                        <div class="article_info">
+                                            <span>
+                                                <i class="far fa-clock"></i>2022-10-22
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-thumbs-up"></i>123
+                                            </span>
+                                            <span>
+                                                <i class="far fa-eye"></i>123
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-comments">123</i>
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-star-half-alt ">1234</i>
+                                            </span>
+                                        </div>
+                                        <a>查看详情</a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="right">34
+                    <div class="advertisement card">
+                        <div class="title">
+                            <h2>独家广告</h2>
+                            <div>
+                                <a href="#">
+                                    申请
+                                </a>
+                            </div>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+                        </div>
+                    </div>
+                    <div class="tags card">
+                        <div class="title">
+                            <h2>标签云</h2>
+                        </div>
+                        <div class="body">
+                            <ul>
+
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                                <li>python</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="site_info card">
+                        <div class="title">
+                            <h2>站点信息</h2>
+
+                        </div>
+                        <div class="body">
+                            主要内容区域
+
+                        </div>
+                    </div>
+                    <div class="links card">
+                        <div class="title">
+                            <h2>友情链接</h2>
+                        </div>
+                        <div class="body">
+                            主要内容区域
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        {% endblock %}
+
+    </main>
+    <footer>
+
+        <div class="left">
+            <p class="thank">Thank For</p>
+            <p class="site_info">
+                <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云服务器</span>
+                <span><img src="/static/my/img/footer/tencent.png" alt="">腾讯云SSL证书</span>
+                <span><img src="/static/my/img/footer/qiniu.png" alt="">七牛云储存</span>
+            </p>
+            <p class="version">
+                <span>version</span>
+                <span>4.0.0</span>
+            </p>
+            <p>建站日期:2022-10-21</p>
+            <p class="beian"><a href=""><img src="/static/my/img/footer/badges.png">备案号</a></p>
+        </div>
+        <div class="right">
+            <div class="contact">
+                <div>
+                    <img class="svg" src="/static/my/img/footer/QQ.svg">
+                    <img class="qq" src="/static/my/img/footer/QQ_qrcode.jpg">
+                </div>
+                <div>
+                    <a href="https://github.com/yd41" target="_blank"> <img class="svg"
+                                                                            src="/static/my/img/footer/github.svg">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://gitee.com/yd41" target="_blank"> <img class="svg"
+                                                                           src="/static/my/img/footer/gitee.svg">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://blog.csdn.net/qq_62384860" target="_blank">
+                        <img class="svg" src="/static/my/img/footer/csdn.svg">
+                    </a>
+                </div>
+            </div>
+            <p>联系邮箱: ymjd41@qq.com</p>
+        </div>
+
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    new Vue({
+        el: '#app',
+        delimiters: ["[[", "]]"],
+        data: {
+            theme: 'light', //默认主题
+        },
+        created() {
+            this.init_theme()
+        },
+        methods: {
+            init_theme() {
+                //读取存储的信息
+                let theme = localStorage.getItem('theme')
+                if (theme) {
+                    this.theme = theme
+                }
+            },
+            //设置主题
+            setTheme(themeName) {
+                this.theme = themeName
+                //持久化存储
+                localStorage.setItem('theme', themeName)
+            },
+
+        }
+    })
+
+
+    //轮播图
+    let menv_img = document.querySelectorAll('.dynamic_shuffl')
+    let menv_length = menv_img.length
+    let index = 0
+    let timer = null
+    clearInterval(timer)
+    timer = setInterval(() => {
+        index++
+        if (index == menv_length) {
+            index = 0
+        }
+        for (let i of menv_img) {
+            i.style.opacity = 0
+        }
+        menv_img[index].style.opacity = 1
+    }, 5000)
+
+
+</script>
+
+</body>
+</html>
