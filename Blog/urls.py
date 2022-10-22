@@ -22,7 +22,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.index),
     path('news/',views.news),
-    path('login/',views.login)
+    path('login/',views.login),
+    path('sign/',views.sign),
+    path('login/random_code/',views.get_random_code)
 
 
 ]

@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ymj个人博客|登录</title>
+    {% block title %}
+        <title>ymj个人博客|登录</title>
+    {% endblock %}
     <link rel="stylesheet" href="/static/my/css/reset.css">
     <link rel="stylesheet" href="/static/my/css/login.css">
 </head>
@@ -10,9 +12,111 @@
 <div id="app">
     <div>
         <main>
+            <div class="top">
+                <div class="title">
+                    {% block main_title %}
+                        <a href="/login" class="active">登录</a>/
+                        <a href="/sign">注册</a>
+                    {% endblock %}
+                </div>
 
+                <div class="login_forms">
+                    {% csrf_token %}
+                    {% block form %}
+                        <input type="text" ref="login_form_name" v-model="login_form.name" placeholder="请输入用户名">
+                        <input type="text" ref="login_form_pwd" v-model="login_form.pwd" placeholder="请输入密码">
+                        <div class="code">
+                            <input type="text" ref="login_form_code" v-model="login_form.code" placeholder="请输入验证码">
+                            <img src="/login/random_code/">
+
+                        </div>
+                        <button @click="login">登录</button>
+                    {% endblock %}
+                </div>
+
+                <div class="other_login">
+                    <p>其他登录方式</p>
+                    <div>
+                        <img src="/static/my/img/login/QQ.svg">
+
+                        <img src="/static/my/img/login/weixin.svg">
+                        <img src="/static/my/img/login/weibo.svg">
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <img src="/static/my/img/login/undraw_new_year_2022.svg">
+
+            </div>
         </main>
     </div>
 </div>
+<script src="/static/axios/axios.min.js"></script>
+<script src="/static/vue/vue.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+
+    axios.interceptors.request.use(request => {
+        if (request.method === 'post') {
+            let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+            request.headers['X-CSRFToken'] = csrftoken
+        }
+        return request
+    })
+    axios.interceptors.response.use(response => {
+        return response.data
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            login_form: {
+                name: '',
+                pwd: '',
+                code: ''
+            },
+            sign_form: {
+                name: '',
+                pwd: '',
+                re_pwd: '',
+                code: ''
+            }
+        },
+
+        methods: {
+            login() {
+                axios.post('/login/', this.login_form).then(res => {
+
+                    if (res.code) {
+                        //验证失败
+                        this.$message.error(res.msg)
+                        this.$refs[`login_form_${res.self}`].focus()
+                        return
+                    }
+                    this.$message.success(res.msg)
+
+                })
+            },
+            sign() {
+                axios.post('/sign/', this.sign_form).then(res => {
+
+                    if (res.code) {
+                        //验证失败
+                        this.$message.error(res.msg)
+                        this.$refs[`sign_form_${res.self}`].focus()
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.href = '/'
+                    }, 1000)
+                })
+            }
+        }
+    })
+
+</script>
 </body>
 </html>
