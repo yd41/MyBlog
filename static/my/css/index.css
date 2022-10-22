@@ -95,6 +95,18 @@
 #app .main .left {
   width: 69%;
 }
+#app .main .left .boutique_article > .title .switch_article_category span {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+#app .main .left .boutique_article > .title .switch_article_category span:hover {
+  color: #ff9800;
+}
+#app .main .left .boutique_article > .title .switch_article_category span[active] {
+  color: #ff9800;
+}
 #app .main .left .boutique_article > .body {
   padding: 0 20px;
 }
@@ -110,12 +122,13 @@
 }
 #app .main .left .boutique_article > .body > ul > li:nth-child(1), #app .main .left .boutique_article > .body > ul > li:nth-child(3), #app .main .left .boutique_article > .body > ul > li:nth-child(5) {
   border-right: 1px solid #f0eeee;
-}
-#app .main .left .boutique_article > .body > ul > li:nth-child(1) .right, #app .main .left .boutique_article > .body > ul > li:nth-child(3) .right, #app .main .left .boutique_article > .body > ul > li:nth-child(5) .right {
-  padding: 10px 0 10px 10px;
+  padding: 10px 10px 10px 0;
 }
 #app .main .left .boutique_article > .body > ul > li:nth-child(2), #app .main .left .boutique_article > .body > ul > li:nth-child(4), #app .main .left .boutique_article > .body > ul > li:nth-child(6) {
   padding: 10px;
+}
+#app .main .left .boutique_article > .body > ul > li:nth-child(1), #app .main .left .boutique_article > .body > ul > li:nth-child(2), #app .main .left .boutique_article > .body > ul > li:nth-child(3), #app .main .left .boutique_article > .body > ul > li:nth-child(4) {
+  border-bottom: 1px solid #f0eeee;
 }
 #app .main .left .boutique_article > .body > ul > li .left {
   width: 40%;

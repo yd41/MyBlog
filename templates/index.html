@@ -29,7 +29,7 @@
             <img v-show="theme=='light'" src="/static/my/img/nav/light.svg" @click="setTheme('dark')" alt="">
             <img v-show="theme=='dark'" src="/static/my/img/nav/dark.svg" @click="setTheme('light')" alt="">
 
-            <a href="#">登录</a>
+            <a href="/login">登录</a>
             <a href="#">注册</a>
         </div>
 
@@ -50,12 +50,13 @@
                     <div class="boutique_article card">
                         <div class="title">
                             <h2>精选文章</h2>
-                            <div>
-                                <a href="#"> 查看更多</a>
+                            <div class="switch_article_category">
+                                <span :active="this_category==='qianduan'" @click="switch_article_category('qianduan')">前端</span>
+                                <span :active="this_category==='houduan'" @click="switch_article_category('houduan')">后端</span>
                             </div>
                         </div>
                         <div class="body">
-                            <ul class="qianduan">
+                            <ul v-show="this_category==='qianduan'" class="qianduan">
                                 <li>
                                     <div class="left">
                                         <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
@@ -136,6 +137,90 @@
                                 </li>
 
                             </ul>
+
+
+                            <ul v-show="this_category==='houduan'" class="houd">
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="left">
+                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
+                                    </div>
+
+                                    <div class="right">
+                                        <h2>使用vite搭建vue3项目</h2>
+                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
+                                        <span>
+                                        2天前
+                                    </span>
+                                    </div>
+                                </li>
+
+                            </ul>
+
                         </div>
                     </div>
                     <div class="hot_list card">
@@ -352,6 +437,8 @@
         delimiters: ["[[", "]]"],
         data: {
             theme: 'light', //默认主题
+            this_category: "qianduan",
+
         },
         created() {
             this.init_theme()
@@ -370,6 +457,10 @@
                 //持久化存储
                 localStorage.setItem('theme', themeName)
             },
+            //选择分类
+            switch_article_category(categoryName) {
+                this.this_category = categoryName
+            }
 
         }
     })

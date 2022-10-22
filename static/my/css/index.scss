@@ -114,6 +114,25 @@
     .left {
       width: 69%;
 
+      .boutique_article > .title {
+        .switch_article_category {
+          span {
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+
+            &:hover {
+              color: #ff9800;
+            }
+
+            &[active] {
+              color: #ff9800;
+            }
+          }
+        }
+      }
+
       .boutique_article > .body {
         padding: 0 20px;
 
@@ -127,16 +146,18 @@
             display: flex;
             padding: 10px 0;
 
+
             &:nth-child(1), &:nth-child(3), &:nth-child(5) {
               border-right: 1px solid #f0eeee;
-
-              .right {
-                padding: 10px 0 10px 10px;
-              }
+              padding: 10px 10px 10px 0;
             }
 
             &:nth-child(2), &:nth-child(4), &:nth-child(6) {
               padding: 10px;
+            }
+
+            &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+              border-bottom: 1px solid #f0eeee;
             }
 
             .left {
