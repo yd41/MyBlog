@@ -40,3 +40,25 @@ def sign(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+
+
+
+def backend(request):
+    if not request.user.username:
+    #     没有登录
+        return redirect('/')
+    return render(request,'backend/backend.html',locals())
+
+def edit_avatar(request):
+    return render(request,'backend/edit_avatar.html')
+
+def add_article(request):
+    return render(request,'backend/add_article.html',locals())
+
+def edit_article(request):
+    return render(request,'backend/edit_article.html',locals())
+
+
+def reset_password(request):
+    return render(request,'backend/reset_password.html',locals())

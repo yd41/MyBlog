@@ -29,6 +29,12 @@ urlpatterns = [
     path('login/random_code/', views.get_random_code),
     path('logout/', views.logout),
 
+    path('backend/', views.backend),  # 后台个人中心
+
+    path('backend/add_article/', views.add_article),  # 后台添加文章
+    path('backend/edit_article/', views.edit_article),  # 后台编辑文章
+    path('backend/edit_avatar/', views.edit_avatar),  # 后台修改头像
+    path('backend/reset_password/', views.reset_password),  # 后台添加文章
     re_path(r'^article/(?P<nid>\d+)/', views.article),  # 文章详情页
 
     re_path(r'^api/', include('api.urls')),  # 路由分发 将所有api开头的请求分发到api这个urls.py中
