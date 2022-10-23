@@ -17,7 +17,7 @@
 
     <div class="code">
         <input type="text" v-model="sign_form.code" ref="sign_form_code" placeholder="请输入验证码" class="sign_input">
-        <img src="/login/random_code/">
+        <img @click="get_random_code" src="/static/my/img/login/code.png">
 
     </div>
     <button @click="sign">注册</button>

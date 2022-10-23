@@ -11,7 +11,7 @@ def random_color():
     return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 
-def random_code(size=(200, 40), length=4, point_num=1000, line_num=10):
+def random_code(size=(184, 44), length=4, point_num=1000, line_num=10):
     width, height = size
     img = Image.new('RGB', (width, height), color=(255, 255, 255))
     draw = ImageDraw.Draw(img)
