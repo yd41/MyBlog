@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>后台界面</title>
@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="/static/my/css/backend/backend_base.css">
 
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    {% block css %}
+
+
+
+    {% endblock %}
+
 </head>
 <body>
 
@@ -142,16 +148,24 @@
 
 
     </main>
-
 </div>
 <script src="/static/vue/vue.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+{% block js %}
+
+{% endblock %}
 <script>
 
     new Vue({
         el: '#app',
+        data:{
+            add_drawer:false
+        }
 
     })
 </script>
+
+
 </body>
 </html>
