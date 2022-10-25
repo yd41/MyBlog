@@ -34,7 +34,9 @@ urlpatterns = [
     path('backend/add_article/', views.add_article),  # 后台添加文章
     path('backend/edit_article/', views.edit_article),  # 后台编辑文章
     path('backend/edit_avatar/', views.edit_avatar),  # 后台修改头像
-    path('backend/reset_password/', views.reset_password),  # 后台添加文章
+    path('backend/reset_password/', views.reset_password),  # 后台重置密码
+    re_path(r'^backend/edit_article/(?P<nid>\d+)/',views.edit_article),
+
     re_path(r'^article/(?P<nid>\d+)/', views.article),  # 文章详情页
 
     re_path(r'^api/', include('api.urls')),  # 路由分发 将所有api开头的请求分发到api这个urls.py中

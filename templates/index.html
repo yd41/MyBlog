@@ -13,10 +13,12 @@
     {% endblock %}
     <link rel="stylesheet" href="/static/fontawesome-free-5.15.4-web/css/all.min.css">
     <script src="/static/vue/vue.js"></script>
+    <script src="/static/jquery/jquery.min.js"></script>
+
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/elementui/theme-chalk/index.css">
     <!-- 引入组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/static/elementui/index.js"></script>
 
 </head>
 <body>
@@ -82,167 +84,46 @@
                         </div>
                         <div class="body">
                             <ul v-show="this_category==='qianduan'" class="qianduan">
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
+                                {% for fronted in fronted_list %}
+                                    <li>
+                                        <div class="left">
+                                            <img src="{{ fronted.cover.url.url }}">
+                                        </div>
 
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
+                                        <div class="right">
+                                            <h2><a href="/article/{{ fronted.nid }}/">{{ fronted.title }}</a></h2>
+                                            <p>
+                                                {{ fronted.abstract }}
+                                            </p>
+                                            <span>
+                                       {{ fronted.create_date|date:'Y-m-d' }}
                                     </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
+                                        </div>
+                                    </li>
 
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/28b9097a-fcc0-460f-8d70-531bc3274310.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-
+                                {% endfor %}
                             </ul>
 
 
-                            <ul v-show="this_category==='houduan'" class="houd">
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
+                            <ul v-show="this_category==='houduan'" class="hou">
+                                {% for backend in backend_list %}
+                                    <li>
+                                        <div class="left">
+                                            <img src="{{ backend.cover.url.url }}">
+                                        </div>
 
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
+                                        <div class="right">
+                                            <h2><a href="/article/{{ backend.nid }}/">{{ backend.title }}</a></h2>
+                                            <p>
+                                                {{ backend.abstract }}
+                                            </p>
+                                            <span>
+                                       {{ backend.create_date|date:'Y-m-d' }}
                                     </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
+                                        </div>
+                                    </li>
 
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <img src="http://www.fengfengzhidao.com/media/article_img/15257675-7214-4817-9e5d-d4d063645585.jpg">
-                                    </div>
-
-                                    <div class="right">
-                                        <h2>使用vite搭建vue3项目</h2>
-                                        <p>发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法</p>
-                                        <span>
-                                        2天前
-                                    </span>
-                                    </div>
-                                </li>
+                                {% endfor %}
 
                             </ul>
 
@@ -267,74 +148,40 @@
                         </div>
                         <div class="body">
                             <ul>
-                                <li>
-                                    <div class="left">
-                                        <div>
-                                            <img src="http://www.fengfengzhidao.com/media/article_img/671.jpg">
+                                {% for article in article_list %}
+                                    <li>
+                                        <div class="left">
+                                            <div>
+                                                <img src="{{ article.cover.url.url }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="right">
-                                        <h2><a href="#">JS格式化字符串（两种方法）</a></h2>
-                                        <p>
-                                            JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
-                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫
-                                            来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
-                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客
-                                        </p>
-                                        <div class="article_info">
+                                        <div class="right">
+                                            <h2><a href="/article/{{ article.nid }}/">{{ article.title }}</a></h2>
+                                            <p>
+                                                {{ article.abstract }}
+                                            </p>
+                                            <div class="article_info">
                                             <span>
-                                                <i class="far fa-clock"></i>2022-10-22
+                                                <i class="far fa-clock"></i>{{ article.create_date|date:'Y-m-d' }}
                                             </span>
-                                            <span>
-                                                <i class="fas fa-thumbs-up"></i>123
+                                                <span>
+                                                <i class="fas fa-thumbs-up"></i>{{ article.digg_count }}
                                             </span>
-                                            <span>
-                                                <i class="far fa-eye"></i>123
+                                                <span>
+                                                <i class="far fa-eye"></i>{{ article.look_count }}
                                             </span>
-                                            <span>
-                                                <i class="fas fa-comments">123</i>
+                                                <span>
+                                                <i class="fas fa-comments"></i>{{ article.comment_count }}
                                             </span>
-                                            <span>
-                                                <i class="fas fa-star-half-alt ">1234</i>
+                                                <span>
+                                                <i class="fas fa-star-half-alt "></i>{{ article.collects_count }}
                                             </span>
+                                            </div>
+                                            <a>查看详情</a>
                                         </div>
-                                        <a>查看详情</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="left">
-                                        <div>
-                                            <img src="http://www.fengfengzhidao.com/media/article_img/671.jpg">
-                                        </div>
-                                    </div>
-                                    <div class="right">
-                                        <h2><a href="#">JS格式化字符串（两种方法）</a></h2>
-                                        <p>
-                                            JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
-                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫
-                                            来源：枫枫知道个人博客 JS格式化字符串（两种方法） 发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客 JS格式化字符串（两种方法）
-                                            发布时间：2022-09-14 作者：枫枫 来源：枫枫知道个人博客
-                                        </p>
-                                        <div class="article_info">
-                                            <span>
-                                                <i class="far fa-clock"></i>2022-10-22
-                                            </span>
-                                            <span>
-                                                <i class="fas fa-thumbs-up"></i>123
-                                            </span>
-                                            <span>
-                                                <i class="far fa-eye"></i>123
-                                            </span>
-                                            <span>
-                                                <i class="fas fa-comments">123</i>
-                                            </span>
-                                            <span>
-                                                <i class="fas fa-star-half-alt ">1234</i>
-                                            </span>
-                                        </div>
-                                        <a>查看详情</a>
-                                    </div>
-                                </li>
+                                    </li>
+                                {% endfor %}
+
                             </ul>
 
                         </div>
@@ -453,15 +300,29 @@
 
 </div>
 
+<script src="/static/axios/axios.min.js"></script>
 
 <script>
+
+    axios.interceptors.request.use(request => {
+        if (request.method === 'post') {
+            let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+            request.headers['X-CSRFToken'] = csrftoken
+        }
+        return request
+    })
+    axios.interceptors.response.use(response => {
+        return response.data
+    })
+
 
     new Vue({
         el: '#app',
         delimiters: ["[[", "]]"],
         data: {
             theme: 'light', //默认主题
-            this_category: "qianduan",
+            this_category: 'qianduan',
+            comment_content: '', //评论内容
 
         },
         created() {
@@ -484,6 +345,53 @@
             //选择分类
             switch_article_category(categoryName) {
                 this.this_category = categoryName
+            },
+            //发布品论
+            add_comment(nid) {
+                axios.post(`/api/article/comment/${nid}/`, {content: this.comment_content}).then(res => {
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
+            },
+
+
+            //展示评论列表
+            show_sub_comment_list(e, username) {
+                let div = $(e.target).parent().parent().next()
+                $(div).slideToggle()
+                $(div).find('textarea').attr('placeholder', `@${username}`)
+            },
+
+            //发布评论
+            add_sub_comment(e, nid, cid) {
+                //nid 文章id
+                //cid 评论id
+                axios.post(`/api/article/comment/${nid}/`, {
+                    content: $(e.target).prev().val(),
+                    pid: cid
+
+                }).then(res => {
+                    if (res.code) {
+                        if (res.self) {
+                            this.$refs[`sub_comment_${res.self}`].focus();
+                        }
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 500)
+                })
             }
 
         }
