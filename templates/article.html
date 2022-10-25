@@ -44,18 +44,27 @@
         </div>
 
         <div class="article_title">
-            <h2>{{ article.title }}</h2>
+            <h2>{{ article.title }}
+                {% if request.user.is_superuser %}
+                    <a href="/backend/edit_article/{{ article.nid }}/"><i class="fas fa-edit"></i></a>
+                {% endif %}
+            </h2>
             <p>
                 <span>发布时间：<i>{{ article.create_date|date:'Y-m-d' }}</i></span>
                 <span>作者：<i>{{ article.author }}</i></span>
                 <span>来源：<i>{{ article.source }}</i></span>
             </p>
+
             <div>
-                <i title="文章标签" class="fas fa-tags"></i>
-                {% for tag in article.tag.all %}
-                    <i>{{ tag.title }}</i>
-                {% endfor %}
+                {% if article.tag.all %}
+                    <i title="文章标签" class="fas fa-tags"></i>
+                    {% for tag in article.tag.all %}
+                        <i>{{ tag.title }}</i>
+                    {% endfor %}
+
+                {% endif %}
             </div>
+
         </div>
         <div class="article_content" id="article_content">
             <textarea style="display: none;">{{ article.content }}</textarea>
@@ -67,10 +76,12 @@
             <div class="title">
                 你觉得文章怎么样
             </div>
+            {% csrf_token %}
             <div class="body">
-                <textarea rows="10" placeholder="写下你想说的话，开始我们的对话"></textarea>
+                <textarea rows="10" ref="comment_content" v-model="comment_content"
+                          placeholder="写下你想说的话，开始我们的对话"></textarea>
 
-                <button class="submit_comment">发布评论</button>
+                <button class="submit_comment" @click="add_comment({{ article.nid }})">发布评论</button>
 
             </div>
             <div class="footer">
@@ -82,146 +93,64 @@
         </div>
         <div class="comment_list">
             <ul>
-                <li>
-                    <div class="left">
-                        <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-                    </div>
-
-                    <div class="right">
-                        <h4>ymj</h4>
-                        <div class="comment_content">你好呀</div>
-                        <div>
-                            <img src="http://python.fengfengzhidao.com/pic/20220427072608.png">
+                {% for comment in comment_list %}
+                    <li>
+                        <div class="left">
+                            <img src="{{ comment.user.avatar.url.url }}" alt="">
                         </div>
-                        <div class="comment_info">
-                            <span>刚刚</span>
-                            <div>
-                                <span>点赞（0）</span>
-                                <span>回复（0）</span>
-                                <span class="delete">删除</span>
+
+                        <div class="right">
+                            <h4>{{ comment.user.username }}</h4>
+                            <div class="comment_content">
+                                {{ comment.content }}
                             </div>
-                        </div>
-
-
-                        <div class="sub_comment_list">
-                            <div class="sub_comment_item">
-
-                                <div class="left">
-                                    <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-
+                            <div class="comment_info">
+                                <span>{{ comment.create_time}}</span>
+                                <div>
+                                    <span>点赞（{{ comment.digg_count }}）</span>
+                                    <span @click="show_sub_comment_list($event,'{{ comment.user.username }}')">回复（{{ comment.comment_count }}）</span>
+                                    <span class="delete">删除</span>
                                 </div>
-                                <div class="right">
-                                    <h4>张三 @ ymj</h4>
-                                    <div class="sub_comment_content">
-                                        你好
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>1秒前</span>
-                                        <div>
-                                            <span>点赞（1）</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
+                            </div>
+
+
+                            <div class="sub_comment_list">
+
+                                {% for sub  in comment.sub_comment %}
+                                    <div class="sub_comment_item">
+
+                                        <div class="left">
+                                            <img src="{{ sub.user.avatar.url.url }}">
+
                                         </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="sub_comment_item">
-
-                                <div class="left">
-                                    <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-
-                                </div>
-                                <div class="right">
-                                    <h4>张三 @ ymj</h4>
-                                    <div class="sub_comment_content">
-                                        你好
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>1秒前</span>
-                                        <div>
-                                            <span>点赞（1）</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
+                                        <div class="right">
+                                            <h4>{{ sub.user.username }} @ {{ sub.parent_comment.user.username }}</h4>
+                                            <div class="sub_comment_content">
+                                                {{ sub.content }}
+                                            </div>
+                                            <div class="sub_comment_info">
+                                                <span>{{ sub.create_time}}</span>
+                                                <div>
+                                                    <span>点赞（{{ sub.digg_count }}）</span>
+                                                    <span>回复</span>
+                                                    <span class="delete">删除</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
 
+                                    </div>
+
+                                {% endfor %}
+
+                                <div class="sub_comment_textarea">
+                                    <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content" placeholder=""></textarea>
+                                    <button @click="add_sub_comment($event,'{{ article.nid }}','{{ comment.nid }}')">回复</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="left">
-                        <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-                    </div>
+                    </li>
+                {% endfor %}
 
-                    <div class="right">
-                        <h4>ymj</h4>
-                        <div class="comment_content">你好呀</div>
-                        <div>
-                            <img src="http://python.fengfengzhidao.com/pic/20220427072608.png">
-                        </div>
-                        <div class="comment_info">
-                            <span>刚刚</span>
-                            <div>
-                                <span>点赞（0）</span>
-                                <span>回复（0）</span>
-                                <span class="delete">删除</span>
-                            </div>
-                        </div>
-
-
-                        <div class="sub_comment_list">
-                            <div class="sub_comment_item">
-
-                                <div class="left">
-                                    <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-
-                                </div>
-                                <div class="right">
-                                    <h4>张三 @ ymj</h4>
-                                    <div class="sub_comment_content">
-                                        你好
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>1秒前</span>
-                                        <div>
-                                            <span>点赞（1）</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="sub_comment_item">
-
-                                <div class="left">
-                                    <img src="http://www.fengfengzhidao.com/media/avatars/20220313083504.jpg">
-
-                                </div>
-                                <div class="right">
-                                    <h4>张三 @ ymj</h4>
-                                    <div class="sub_comment_content">
-                                        你好
-                                    </div>
-                                    <div class="sub_comment_info">
-                                        <span>1秒前</span>
-                                        <div>
-                                            <span>点赞（1）</span>
-                                            <span>回复</span>
-                                            <span class="delete">删除</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
 

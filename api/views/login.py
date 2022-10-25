@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib import auth
 from django.http import JsonResponse
+from django.views import View
 
 from app01.models import UserInfo
-from django.views import View
+
 
 class LoginBaseForm(forms.Form):
     name = forms.CharField(error_messages={'required': '请输入用户名'})
@@ -59,6 +60,7 @@ class SignForm(LoginBaseForm):
             self.add_error('name', '该用户已注册')
         return self.cleaned_data
 
+
 # 登陆失败的可复用代码
 def clean_form(form):
     err_dict: dict = form.errors
@@ -66,9 +68,10 @@ def clean_form(form):
     err_msg = err_dict[err_valid][0]
     return err_valid, err_msg
 
+
 # CBV
 class LoginView(View):
-    def post(self,request):
+    def post(self, request):
         res = {
             'code': 425,
             'msg': '登陆成功',
@@ -88,7 +91,7 @@ class LoginView(View):
 
 
 class SignView(View):
-    def post(self,request):
+    def post(self, request):
         res = {
             'code': 425,
             'msg': '注册成功',
