@@ -10,6 +10,8 @@ nav {
   align-items: center;
   padding: 0 120px;
 
+  transition: all 0.3s;
+
   .left {
     width: 60%;
   }
@@ -42,6 +44,17 @@ nav {
     &:last-child {
       margin-right: 0;
     }
+  }
+}
+
+nav.show{
+  background-color: white;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  a{
+    color: #333;
+  }
+  .el-dropdown{
+    color: #333;
   }
 }
 

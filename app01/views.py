@@ -20,8 +20,6 @@ def article(request, nid):
     if not article_query:
         return redirect('/')
     article = article_query.first()
-
-
     comment_list=sub_comment_list(nid)
 
     return render(request, 'article.html', locals())

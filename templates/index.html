@@ -25,7 +25,7 @@
 <div id="app">
     <link rel="stylesheet" :href="'/static/my/css/theme/'+theme+'.css'">
 
-    <nav>
+    <nav class="show nav_bg">
 
         <div class="left">
             <a href="/">首页</a>
@@ -305,7 +305,7 @@
 <script>
 
     axios.interceptors.request.use(request => {
-        if (request.method === 'post') {
+        if (request.method !== 'get') {
             let csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value
             request.headers['X-CSRFToken'] = csrftoken
         }
@@ -363,21 +363,36 @@
                 })
             },
 
+            //将被评论的用户名写到placeholder中
 
-            //展示评论列表
-            show_sub_comment_list(e, username) {
-                let div = $(e.target).parent().parent().next()
-                $(div).slideToggle()
+            set_sub_placeholder(div, username, cid) {
                 $(div).find('textarea').attr('placeholder', `@${username}`)
+                $(div).find('textarea').attr('cid', cid)
+
             },
 
-            //发布评论
-            add_sub_comment(e, nid, cid) {
+            //展示子评论评论列表
+            show_sub_comment_list(e, username, cid) {
+                let div = $(e.target).parent().parent().next()
+                $(div).slideToggle()
+                this.set_sub_placeholder(div, username, cid)
+
+            },
+
+            //子评论回复
+            sub_comment_set_placeholder(e, username, cid) {
+                let div = $(e.target).parents('.sub_comment_list')
+                this.set_sub_placeholder(div, username, cid)
+
+            },
+
+            //发布子评论
+            add_sub_comment(e, nid) {
                 //nid 文章id
                 //cid 评论id
                 axios.post(`/api/article/comment/${nid}/`, {
                     content: $(e.target).prev().val(),
-                    pid: cid
+                    pid: $(e.target).prev().attr('cid')
 
                 }).then(res => {
                     if (res.code) {
@@ -392,6 +407,92 @@
                         location.reload()
                     }, 500)
                 })
+            },
+
+            //删除子评论
+            delete_sub_comment(nid, aid, root_comment_id) {
+
+                this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete(`/api/article/comment/${nid}/`, {
+                        data: {
+                            aid,
+                            pid: root_comment_id
+                        }
+                    }).then(res => {
+                        if (res.code) {
+                            this.$message.error(res.msg)
+                            return
+                        }
+                        this.$message.success(res.msg)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 500)
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消删除'
+                    });
+                });
+            },
+
+            //评论点赞
+            comment_digg(e, nid) {
+                axios.post(`/api/comment/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    e.target.innerHTML = `点赞（${res.data}）`
+                    this.$message.success(res.msg)
+                })
+            },
+
+            //文章点赞
+            article_digg(e, nid) {
+                let dom = e.target
+                dom.classList.add('show')
+                axios.post(`/api/article/digg/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    $(dom).next().text(res.data)
+                    this.$message.success(res.msg)
+                })
+                let timer = null
+                timer = setTimeout(() => {
+                    clearTimeout(timer)
+                    dom.classList.remove('show')
+                }, 1000)
+            },
+
+            //文章收藏
+            article_collects(e, nid) {
+                let dom = e.target
+                dom.classList.add('show')
+
+                axios.post(`/api/article/collects/${nid}/`).then(res => {
+                    if (res.code) {
+                        this.$message.error(res.msg)
+                        return
+                    }
+                    this.$message.success(res.msg)
+                    $(dom).next().text(res.data)
+                    if (res.isCollects) {
+                        dom.classList.add('show')
+                        return
+                    }
+                    dom.classList.remove('show')
+
+
+                })
+
+
             }
 
         }
@@ -416,6 +517,17 @@
         menv_img[index].style.opacity = 1
     }, 5000)
 
+
+    //动态导航条
+    let nav = document.querySelector('.nav_bg')
+    window.onscroll = function () {
+        let top = document.documentElement.scrollTop
+        if (top >= 200) {
+            nav.classList.add('show')
+        } else {
+            nav.classList.remove('show')
+        }
+    }
 
 </script>
 

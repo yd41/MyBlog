@@ -1,6 +1,6 @@
 .article {
   position: relative;
-  width: 1000px;
+  width: 70%;
 }
 .article .article_title {
   display: flex;
@@ -271,6 +271,33 @@
 .article .slider_bar .body p.H6 {
   font-size: 12px;
   padding-left: 20px;
+}
+.article .article_actions {
+  position: fixed;
+  bottom: 200px;
+  right: 15%;
+  z-index: 2;
+}
+.article .article_actions .item {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+.article .article_actions .item i {
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+.article .article_actions .item i.show {
+  color: #ff9800;
 }
 
 /*# sourceMappingURL=article.css.map */

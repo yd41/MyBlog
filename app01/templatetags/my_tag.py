@@ -8,9 +8,7 @@ register = template.Library()
 #     return int(item) + 1
 @register.inclusion_tag('my_tag/headers.html')
 def banner(menu_name,article=None):
-    img_list=['http://www.fengfengzhidao.com/media/site_bg/wallhaven-k7jmg6.jpg',
-              'http://www.fengfengzhidao.com/media/site_bg/wallhaven-k7jmg6.jpg',
-              'http://www.fengfengzhidao.com/media/site_bg/311.jpg']
+    img_list=["media/article_img/img.png","media/article_img/img_1.png","media/article_img/img_2.png"]
 
     if article:
         # 说明是文章详情页面
