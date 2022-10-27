@@ -1,6 +1,5 @@
 {% extends 'index.html' %}
-{% load my_tag %}
-
+{% load my_tag my_filter %}
 {% block css %}
     <link rel="stylesheet" href="/static/editor-md/css/editormd.css"/>
 
@@ -13,36 +12,39 @@
 
 {% block main %}
 
+    <div class="slider_bar" ref="slider">
+        <div class="title">
+            <span>[[ slider_text]]</span>
+            <el-switch
+                    v-model="isShowSlider"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    @change="sliderChange"
+            >
 
+            </el-switch>
+        </div>
+        <div class="body">
+            <p :tagName="item.tagName" @click="go_side_bar(item.pos,$event)" v-for="(item,index) in slide_list"
+               :key="index">
+                [[item.c]]
+            </p>
+        </div>
+    </div>
     <div class="article">
 
 
-        <div class="slider_bar">
-            <div class="title">
-                悬浮目录
+        <div class="article_actions">
+            <div class="item" title="文章点赞">
+                <i class="fas fa-thumbs-up" @click="article_digg($event,'{{ article.nid }}')"></i>
+                <span>  {{ article.digg_count }}</span>
             </div>
-            <div class="body">
-                <p class="H1">
-                    什么是java
-                </p>
-                <p class="H2">
-                    java的解读weifneuignveiurbguiergbi
-                </p>
-                <p class="H3">
-                    java的解读
-                </p>
-                <p class="H4">
-                    java的解读
-                </p>
-                <p class="H5">
-                    java的解读
-                </p>
-                <p class="H6">
-                    java的解读
-                </p>
+            <div class="item" title="文章收藏"><i class="fas fa-star {{ article|is_user_collects:request }}"
+                                              @click="article_collects($event,'{{ article.nid }}')"></i>
+                <span> {{ article.collects_count }}</span>
             </div>
+            <div class="item" title="回到顶部"><i class="fas fa-angle-double-up" @click="go_to_top"></i></div>
         </div>
-
         <div class="article_title">
             <h2>{{ article.title }}
                 {% if request.user.is_superuser %}
@@ -71,7 +73,6 @@
 
 
         </div>
-
         <div class="comment_submit">
             <div class="title">
                 你觉得文章怎么样
@@ -86,7 +87,7 @@
             </div>
             <div class="footer">
                 <p>
-                    <span>49</span>人参与，<span>3</span>条评论
+                    <span>{{ article.look_count }}</span>人参与，<span>{{ article.comment_count }}</span>条评论
                 </p>
 
             </div>
@@ -105,11 +106,14 @@
                                 {{ comment.content }}
                             </div>
                             <div class="comment_info">
-                                <span>{{ comment.create_time}}</span>
+                                <span>{{ comment.create_time }}</span>
                                 <div>
-                                    <span>点赞（{{ comment.digg_count }}）</span>
-                                    <span @click="show_sub_comment_list($event,'{{ comment.user.username }}')">回复（{{ comment.comment_count }}）</span>
-                                    <span class="delete">删除</span>
+                                    <span @click="comment_digg('{{ comment.nid }}')">点赞（{{ comment.digg_count }}）</span>
+                                    <span @click="show_sub_comment_list($event,'{{ comment.user.username }}','{{ comment.nid }}')">回复（{{ comment.comment_count }}）</span>
+                                    {% if sub.user == request.user or request.user.is_superuser %}
+                                        <span class="delete"
+                                              @click="delete_sub_comment('{{ comment.nid }}','{{ article.nid }}',null)">删除</span>
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -129,11 +133,14 @@
                                                 {{ sub.content }}
                                             </div>
                                             <div class="sub_comment_info">
-                                                <span>{{ sub.create_time}}</span>
+                                                <span>{{ sub.create_time }}</span>
                                                 <div>
-                                                    <span>点赞（{{ sub.digg_count }}）</span>
-                                                    <span>回复</span>
-                                                    <span class="delete">删除</span>
+                                                    <span @click="comment_digg('{{ sub.nid }}')">点赞（{{ sub.digg_count }}）</span>
+                                                    <span @click="sub_comment_set_placeholder($event,'{{ sub.user.username }}','{{ sub.nid }}')">回复</span>
+                                                    {% if sub.user == request.user or request.user.is_superuser %}
+                                                        <span class="delete"
+                                                              @click="delete_sub_comment('{{ sub.nid }}','{{ article.nid }}','{{ comment.nid }}')">删除</span>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
@@ -143,8 +150,9 @@
                                 {% endfor %}
 
                                 <div class="sub_comment_textarea">
-                                    <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content" placeholder=""></textarea>
-                                    <button @click="add_sub_comment($event,'{{ article.nid }}','{{ comment.nid }}')">回复</button>
+                                    <textarea name="" id="" cols="30" rows="10" ref="sub_comment_content"
+                                              placeholder=""></textarea>
+                                    <button @click="add_sub_comment($event,'{{ article.nid }}')">回复</button>
                                 </div>
                             </div>
                         </div>

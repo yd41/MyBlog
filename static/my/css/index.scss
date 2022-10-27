@@ -1,3 +1,5 @@
+@import "./pager";
+
 .card {
   .title {
     border-radius: 5px 5px 0 0;
@@ -95,13 +97,13 @@
               > div {
                 width: 100%;
                 overflow: hidden;
-                height: 80px;
+                height: 90px;
               }
 
               img {
                 width: 100%;
                 transition: all 0.3s;
-
+                object-fit: cover;
                 &:hover {
                   transform: scale(1.1);
                 }

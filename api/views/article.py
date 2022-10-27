@@ -1,6 +1,7 @@
 import random
 
 from django import forms
+from django.db.models import F
 from django.http import JsonResponse
 from django.views import View
 from markdown import markdown
@@ -101,7 +102,6 @@ class ArticleView(View):
         if not article_query:
             res['msg'] = '请求错误'
             return JsonResponse(res)
-
         data = request.data
         data['status'] = 1
         form = AddArticleForm(data)
@@ -121,58 +121,50 @@ class ArticleView(View):
         return JsonResponse(res)
 
 
+# 文章点赞
+class ArticleDiggView(View):
+    def post(self, request, nid):
+        res = {
+            'msg': '点赞成功',
+            'code': 412,
+            'data': 0,
+        }
+        comment_query = Articles.objects.filter(nid=nid)
+        comment_query.update(digg_count=F('digg_count') + 1)
+        digg_count = comment_query.first().digg_count
+        res['code'] = 0
+        res['data'] = digg_count
+        return JsonResponse(res)
 
 
-# class ArticleView(View):
-#     def post(self, request):
-#         res = {
-#             'mas': '文章发布成功',
-#             'code': 412,
-#             'data':None
-#         }
-#         data: dict = request.data
-#         title = data.get('title')
-#         if not title:
-#             res['mas'] = '请输入文章标题'
-#             return JsonResponse(res)
-#         content = data.get('content')
-#         recommend = data.get('recommend')
-#         if not content:
-#             res['mas'] = '请输入文章内容'
-#             return JsonResponse(res)
-#         extra = {
-#             'title': title,
-#             'content': content,
-#             'recommend': recommend,
-#             'status': 1
-#         }
-#
-#         # 解析文本内容
-#         abstract = data.get('abstract')
-#         if not abstract:
-#             abstract = PyQuery(markdown(content)).text()[:30]
-#         extra['abstract'] = abstract
-#         cover_id=data.get('cover_id')
-#         if cover_id:
-#             extra['cover_id']=cover_id
-#         category = data.get('category_id')
-#         if category:
-#             extra['category'] = category
-#         else:
-#             extra['category'] = 1
-#         pwd = data.get('pwd')
-#         if pwd:
-#             extra['pwd'] = pwd
-#
-#         article_obj = Articles.objects.create(**extra)
-#         # 标签
-#         tags = data.get('tags')
-#         if tags:
-#             for tag in tags:
-#                 if not tag.isdigit():
-#                     tag_obj = Tags.objects.create(title=tag)
-#                     article_obj.tag.add(tag)
-#                 else:
-#                     article_obj.tag.add(tag)
-#         res['data']=article_obj.nid
-#         return JsonResponse(res)
+# 文章收藏
+class ArticleCollectsView(View):
+    def post(self, request, nid):
+        # 判断登录
+        # 同样的请求 收藏变取消
+        res = {
+            'msg': '收藏成功',
+            'code': 412,
+            'data':0,
+            'isCollects': True,  # 是否是收藏
+        }
+        if not request.user.username:
+            res['msg'] = '请登录'
+            return JsonResponse(res)
+        # 判断用户是否收藏过文章
+        flag = request.user.collects.filter(nid=nid)
+        num = 1
+        res['code']=0
+        if flag:
+            # 用户已经收藏文章 现在取消收藏
+            res['msg'] = '取消收藏成功'
+            res['isCollects']=False
+            request.user.collects.remove(nid)
+            num = -1
+        else:
+            request.user.collects.add(nid)
+        article_query=Articles.objects.filter(nid=nid)
+        article_query.update(collects_count=F('collects_count') + num)
+        collects_count= article_query.first().collects_count
+        res['data']=collects_count
+        return JsonResponse(res)

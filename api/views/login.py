@@ -2,8 +2,9 @@ from django import forms
 from django.contrib import auth
 from django.http import JsonResponse
 from django.views import View
+import random
 
-from app01.models import UserInfo
+from app01.models import UserInfo,Avatars
 
 
 class LoginBaseForm(forms.Form):
@@ -106,6 +107,10 @@ class SignView(View):
         # 注册成功后
         user = UserInfo.objects.create_user(username=request.data.get('name'),
                                             password=request.data.get('pwd'))
+        # 随机选择头像
+        avatar_list=[i.nid  for i in Avatars.objects.all()]
+        user.avatar_id=random.choice(avatar_list)
+        user.save()
         auth.login(request, user)
         res['code'] = 0
         return JsonResponse(res)
