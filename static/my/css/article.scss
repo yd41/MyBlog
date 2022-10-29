@@ -333,6 +333,27 @@ main {
 }
 
 
+pre {
+  position: relative;
+
+  &:hover {
+    .code-copy {
+      opacity: 1;
+
+    }
+  }
+
+  .code-copy {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+
+  }
+}
+
 .slider_bar {
 
   width: 180px;
@@ -431,4 +452,10 @@ main {
   position: fixed;
   top: 80px;
 
+<<<<<<< HEAD
 }
+
+
+=======
+}
+>>>>>>> MyBlog/文章搜索
