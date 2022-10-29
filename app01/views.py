@@ -3,7 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from app01.models import Articles, Tags, Cover
+<<<<<<< HEAD
 from app01.utils.pagination import Pagination
+=======
+>>>>>>> MyBlog/文章搜索
 from app01.utils.random_code import random_code
 from app01.utils.sub_comment import sub_comment_list
 
@@ -21,7 +24,11 @@ def index(request):
         per_page=3,
         page_page_count=7
     )
+<<<<<<< HEAD
     article_list = article_list[pager.start:pager.end]
+=======
+    article_list=article_list[pager.start:pager.end]
+>>>>>>> MyBlog/文章搜索
 
     return render(request, 'index.html', locals())
 
