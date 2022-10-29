@@ -15,20 +15,24 @@
 .pager > li:last-child {
   margin-right: 0;
 }
-.pager > li:hover a {
-  background-color: #ff9800;
-  color: white;
-}
 .pager > li a {
   display: inline-flex;
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 10px 10px 0;
+}
+.pager > li:hover {
+  background-color: #ff9800;
+}
+.pager > li:hover a {
+  color: white;
+}
+.pager > li.active {
+  background-color: #ff9800;
 }
 .pager > li.active a {
-  background-color: #ff9800;
   color: white;
 }
 
@@ -143,53 +147,53 @@
   background-color: transparent;
   padding: 0;
 }
-#app .main .left .all_article > .body > ul {
+#app .main .left .all_article > .body > .article_content {
   width: 100%;
 }
-#app .main .left .all_article > .body > ul > li {
+#app .main .left .all_article > .body > .article_content > li {
   width: 100%;
   display: flex;
   background-color: white;
   margin-bottom: 20px;
   border-radius: 5px;
 }
-#app .main .left .all_article > .body > ul > li:first-child {
+#app .main .left .all_article > .body > .article_content > li:first-child {
   border-radius: 0 0 5px 5px;
 }
-#app .main .left .all_article > .body > ul > li:first-child .left {
+#app .main .left .all_article > .body > .article_content > li:first-child .left {
   padding: 10px 10px 20px 20px;
 }
-#app .main .left .all_article > .body > ul > li:first-child .right {
+#app .main .left .all_article > .body > .article_content > li:first-child .right {
   padding: 10px 20px 20px 10px;
 }
-#app .main .left .all_article > .body > ul > li .left {
+#app .main .left .all_article > .body > .article_content > li .left {
   width: 30%;
   padding: 10px 10px 20px 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
-#app .main .left .all_article > .body > ul > li .left > div {
+#app .main .left .all_article > .body > .article_content > li .left > div {
   width: 100%;
   height: 110px;
   border-radius: 5px;
 }
-#app .main .left .all_article > .body > ul > li .left img {
+#app .main .left .all_article > .body > .article_content > li .left img {
   width: 100%;
 }
-#app .main .left .all_article > .body > ul > li .left img:hover {
+#app .main .left .all_article > .body > .article_content > li .left img:hover {
   transform: scale(1.1);
   transition: all 0.3s;
 }
-#app .main .left .all_article > .body > ul > li .right {
+#app .main .left .all_article > .body > .article_content > li .right {
   width: 70%;
   padding: 10px 20px 20px 10px;
   position: relative;
 }
-#app .main .left .all_article > .body > ul > li .right > h2 {
+#app .main .left .all_article > .body > .article_content > li .right > h2 {
   font-size: 23px;
   margin-bottom: 5px;
 }
-#app .main .left .all_article > .body > ul > li .right p {
+#app .main .left .all_article > .body > .article_content > li .right p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -197,17 +201,17 @@
   text-overflow: ellipsis;
   margin-bottom: 20px;
 }
-#app .main .left .all_article > .body > ul > li .right .article_info {
+#app .main .left .all_article > .body > .article_content > li .right .article_info {
   font-size: 14px;
   color: #555;
 }
-#app .main .left .all_article > .body > ul > li .right .article_info > span {
+#app .main .left .all_article > .body > .article_content > li .right .article_info > span {
   margin-right: 10px;
 }
-#app .main .left .all_article > .body > ul > li .right .article_info > span i {
+#app .main .left .all_article > .body > .article_content > li .right .article_info > span i {
   margin-right: 5px;
 }
-#app .main .left .all_article > .body > ul > li .right > a {
+#app .main .left .all_article > .body > .article_content > li .right > a {
   color: white;
   width: 100px;
   height: 30px;

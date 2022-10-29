@@ -31,7 +31,14 @@
             <a href="/">首页</a>
             <a href="/news">新闻</a>
             <a href="#">心情</a>
+            <a href="#">回忆录</a>
             <a href="#">关于</a>
+            <a href="#">网站导航</a>
+
+            <div class="search">
+                <input type="text" @keydown.enter="search" v-model="search_key" class="search_box" placeholder="搜索你想要的内容">
+                <button @click="search"><i class="fa fa-search"></i></button>
+            </div>
         </div>
 
         <div class="right">
@@ -314,8 +321,6 @@
     axios.interceptors.response.use(response => {
         return response.data
     })
-
-
     new Vue({
         el: '#app',
         delimiters: ["[[", "]]"],
@@ -325,7 +330,9 @@
             comment_content: '', //评论内容
             isShowSlider: false,
             slide_list: [],
-            slider_text: '显示悬浮目录'
+            slider_text: '显示悬浮目录',
+            search_key: '',
+
         },
         created() {
             this.init_theme()
@@ -333,9 +340,18 @@
             let path = location.pathname
             if (path.indexOf('article') !== -1) {
                 this.init_slider()
+
             }
+
+
+            if (path.indexOf('search') !== -1) {
+                this.init_search_key()
+            }
+
+
             setTimeout(() => {
                 this.get_sidebar()
+                this.code_copy()
             }, 200)
         },
         methods: {
@@ -579,61 +595,121 @@
                     scrollTop: pos.top
                 }, 1000)
 
-            }
+            },
+
+            //代码一键复制
+            code_copy() {
+                $('pre').each(function () {
+                    let copy = $('<i title="copy" class="el-icon-document-copy code-copy"></i>')
+                    $(this).append(copy)
+                })
+                $('pre i.code-copy').click(e => {
+                    let text_list = $(e.target).prev().find('code')
+                    let text = ''
+                    text_list.each(function () {
+                        text += $(this).text() + '\n'
+                    })
+                    let element = $('<textarea>' + text + '</textarea>')
+                    $('body').append(element)
+                    element[0].select()
+                    document.execCommand('Copy')
+                    element.remove()
+
+                    //复制成功的提示信息
+                    this.$message.success('复制成功!')
+                })
+            },
+
+
+            //点击搜索
+            search() {
+                let box = document.querySelector('.search')
+
+                if (!box.classList.contains('show_search')) {
+                    box.classList.add('show_search')
+                    return
+                }
+
+                if (!this.search_key) {
+                    box.classList.remove('show_search')
+                    return
+                }
+                //打卡标签页
+                window.open('/search/?key=' + this.search_key, name = '_blank')
+
+
+            },
+            //初始化搜索值
+
+            init_search_key() {
+
+                let dom = document.querySelector('.search_key_input')
+                let key = dom.getAttribute('data')
+                this.search_key = key
+
+
+            },
 
         }
     })
-
-
-    //轮播图
-    let menv_img = document.querySelectorAll('.dynamic_shuffl')
-    let menv_length = menv_img.length
-    let index = 0
-    let timer = null
-    clearInterval(timer)
-    menv_img[menv_length - 1].style.opacity = 1
-    timer = setInterval(() => {
-        index++
-        if (index == menv_length) {
-            index = 0
-        }
-        for (let i of menv_img) {
-            i.style.opacity = 0
-        }
-        menv_img[index].style.opacity = 1
-    }, 5000)
-
-
-    //动态导航条
-    let nav = document.querySelector('.nav_bg')
-    let path = location.pathname
-    let slider;
-    slider = document.querySelector('.slider_bar')
-    let top1 = 0
-    if (path.indexOf('article') !== -1) {
-        top1 = $(slider).offset().top - 80
-    }
-    window.onscroll = function () {
-        let top = document.documentElement.scrollTop
-        if (top >= 200) {
-            nav.classList.add('show')
-        } else {
-            nav.classList.remove('show')
-        }
-        if (slider) {
-            if (top >= top1) {
-                slider.classList.add('fixed')
-            } else {
-                slider.classList.remove('fixed')
-            }
-        }
-    }
 
 </script>
 
 
 {% block js %}
+    <script>
+        //轮播图
+        let menv_img = document.querySelectorAll('.dynamic_shuffl')
+        let menv_length = menv_img.length
+        let index = 0
+        let timer = null
+        clearInterval(timer)
+        menv_img[menv_length - 1].style.opacity = 1
+        timer = setInterval(() => {
+            index++
+            if (index == menv_length) {
+                index = 0
+            }
+            for (let i of menv_img) {
+                i.style.opacity = 0
+            }
+            menv_img[index].style.opacity = 1
+        }, 5000)
+
+
+        //动态导航条
+        let nav = document.querySelector('.nav_bg')
+        let path = location.pathname
+        let slider;
+        slider = document.querySelector('.slider_bar')
+        let top1 = 0
+        if (path.indexOf('article') !== -1) {
+            top1 = $(slider).offset().top - 80
+        }
+        window.onscroll = function () {
+            let top = document.documentElement.scrollTop
+            if (top >= 200) {
+                nav.classList.add('show')
+            } else {
+                nav.classList.remove('show')
+            }
+            if (slider) {
+                if (top >= top1) {
+                    slider.classList.add('fixed')
+                } else {
+                    slider.classList.remove('fixed')
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+
+{% block article_js %}
 
 {% endblock %}
 </body>
 </html>
+
+
+
