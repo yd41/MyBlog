@@ -329,14 +329,13 @@
             this_category: 'qianduan',
             comment_content: '', //评论内容
             isShowSlider: false,
-            slide_list: [],
-<<<<<<< HEAD
+            slide_list: []
             slider_text: '显示悬浮目录',
             search_key: '',
 
-=======
+
             slider_text: '显示悬浮目录'
->>>>>>> MyBlog/文章搜索
+
         },
         created() {
             this.init_theme()
@@ -599,7 +598,6 @@
                     scrollTop: pos.top
                 }, 1000)
 
-<<<<<<< HEAD
             },
 
             //代码一键复制
@@ -654,61 +652,12 @@
 
 
             },
-=======
-            }
->>>>>>> MyBlog/文章搜索
 
-        }
+            }
+
     })
 
-<<<<<<< HEAD
-=======
 
-    //轮播图
-    let menv_img = document.querySelectorAll('.dynamic_shuffl')
-    let menv_length = menv_img.length
-    let index = 0
-    let timer = null
-    clearInterval(timer)
-    menv_img[menv_length - 1].style.opacity = 1
-    timer = setInterval(() => {
-        index++
-        if (index == menv_length) {
-            index = 0
-        }
-        for (let i of menv_img) {
-            i.style.opacity = 0
-        }
-        menv_img[index].style.opacity = 1
-    }, 5000)
-
-
-    //动态导航条
-    let nav = document.querySelector('.nav_bg')
-    let path = location.pathname
-    let slider;
-    slider = document.querySelector('.slider_bar')
-    let top1 = 0
-    if (path.indexOf('article') !== -1) {
-        top1 = $(slider).offset().top - 80
-    }
-    window.onscroll = function () {
-        let top = document.documentElement.scrollTop
-        if (top >= 200) {
-            nav.classList.add('show')
-        } else {
-            nav.classList.remove('show')
-        }
-        if (slider) {
-            if (top >= top1) {
-                slider.classList.add('fixed')
-            } else {
-                slider.classList.remove('fixed')
-            }
-        }
-    }
-
->>>>>>> MyBlog/文章搜索
 </script>
 
 
