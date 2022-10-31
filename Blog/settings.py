@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "simpleui",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -132,3 +133,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 用户扩展第三张表
 # 用户自己创建的第三张表
 AUTH_USER_MODEL = "app01.UserInfo"
+
+
+##########  simpleui
+SIMPLEUI_HOME_INFO=False # 关闭服务器信息
+SIMPLEUI_HOME_QUICK=False # 关闭快捷操作
+SIMPLEUI_HOME_ACTION=False # 关闭最近活动
+
+# SIMPLEUI_HOME_PAGE='/admin_home/'
+# SIMPLEUI_HOME_TITLE='首页'
+# SIMPLEUI_HOME_ICON='fa fa-user'
+

@@ -45,6 +45,11 @@ nav {
       margin-right: 0;
     }
   }
+
+    a.active{
+    color: #ff9800;
+  }
+
 }
 
 nav.show {
@@ -53,6 +58,9 @@ nav.show {
 
   a {
     color: #333;
+  }
+  a.active{
+    color: #ff9800;
   }
 
   .el-dropdown {

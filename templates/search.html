@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-
+{% load my_tag my_filter %}
 {% block banner %}
 
 {% endblock %}
@@ -29,35 +29,21 @@
 
 
         <div class="search_criteria">
+            <ul>
 
-            <ul>
-                <li class="active"><a href="">综合排序</a></li>
-                <li><a href="">最新发布</a></li>
-                <li><a href="">最多点赞</a></li>
-                <li><a href="">最多收藏</a></li>
-                <li><a href="">最多评论</a></li>
+                {% generate_order_html request 'order' %}
+
             </ul>
             <ul>
-                <li class="active"><a href="">全部字数</a></li>
-                <li><a href="">100字左右</a></li>
-                <li><a href="">500字左右</a></li>
-                <li><a href="">2000字左右</a></li>
-                <li><a href="">3000字以上</a></li>
+                {% generate_order_html request 'word' %}
+
             </ul>
             <ul>
-                <li class="active"><a href="">全部标签</a></li>
-                <li><a href="">python</a></li>
-                <li><a href="">Django</a></li>
-                <li><a href="">Vue</a></li>
-                <li><a href="">java</a></li>
-                <li><a href="">Vue</a></li>
-                <li><a href="">java</a></li>
-                <li><a href="">Vue</a></li>
-                <li><a href="">java</a></li>
+                {% generate_order_html request 'tag' %}
 
             </ul>
         </div>
-        <ul class="search_content">
+        <ul class="{{ article_list|is_article_list }}">
 
             {% for article in article_list %}
                 <li>
@@ -67,11 +53,11 @@
                     </a>
                     <div class="info">
                         <div class="title">
-                            <a href="/article/{{article.nid }}/" target="_blank">{{ article.title }}</a>
+                            <a href="/article/{{ article.nid }}/" target="_blank">{{ article.title }}</a>
                         </div>
                         <div class="icon">
                         <span>
-                            <i class="fa fa-lock"></i>
+                            <i class="fa fa-eye"></i>
                             {{ article.look_count }}
                         </span>
                             <span>
@@ -87,7 +73,7 @@
         </ul>
         <ul class="pager">
 
-{{ pager.page_html|safe }}
+            {{ pager.page_html|safe }}
 
         </ul>
     </div>

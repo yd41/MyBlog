@@ -12,3 +12,11 @@ def is_user_collects(article, request):
     if article in request.user.collects.all():
         return 'show'
     return ''
+
+
+# 判断是否有文章内容
+@register.filter
+def is_article_list(article_list):
+    if len(article_list):
+        return 'search_content'
+    return 'no_content'
