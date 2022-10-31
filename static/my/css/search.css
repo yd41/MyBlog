@@ -1,3 +1,7 @@
+main {
+  min-height: 0;
+}
+
 .main {
   width: 1080px;
   display: flex;
@@ -57,7 +61,8 @@
 .main .search_criteria > ul {
   display: flex;
   list-style: none;
-  margin: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap;
 }
 .main .search_criteria > ul > li {
   padding: 3px 8px;
@@ -84,7 +89,7 @@
 }
 .main .search_content > li {
   width: 160px;
-  height: 170px;
+  height: 180px;
   border: 1px solid #e5e9ef;
   border-radius: 5px;
   overflow: hidden;
@@ -119,6 +124,11 @@
   font-size: 13px;
   display: flex;
   justify-content: space-between;
+}
+.main .no_content {
+  width: 100%;
+  height: 300px;
+  background: url("/static/my/img/search/img.png") no-repeat center;
 }
 
 .pager {

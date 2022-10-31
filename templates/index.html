@@ -27,16 +27,18 @@
 
     <nav class="nav_bg">
 
-        <div class="left">
-            <a href="/">首页</a>
-            <a href="/news">新闻</a>
-            <a href="#">心情</a>
-            <a href="#">回忆录</a>
-            <a href="#">关于</a>
-            <a href="#">网站导航</a>
+        <div class="left" id="dynamic_nav">
+{#            <a href="/">首页</a>#}
+{#            <a href="/news">新闻</a>#}
+{#            <a href="/mods">心情</a>#}
+{#            <a href="/history">回忆录</a>#}
+{#            <a href="/about">关于</a>#}
+{#            <a href="/sites">网站导航</a>#}
+            {% dynamic_navigation request %}
 
             <div class="search">
-                <input type="text" @keydown.enter="search" v-model="search_key" class="search_box" placeholder="搜索你想要的内容">
+                <input type="text" @keydown.enter="search" v-model="search_key" class="search_box"
+                       placeholder="搜索你想要的内容">
                 <button @click="search"><i class="fa fa-search"></i></button>
             </div>
         </div>
@@ -321,6 +323,22 @@
     axios.interceptors.response.use(response => {
         return response.data
     })
+    /*
+        function dynamic_navigation() {
+            let a_list = document.querySelectorAll('#dynamic_nav>a')
+            let path = location.pathname
+            for (const a of a_list) {
+                let a_href = a.getAttribute('href')
+                if (a_href === path || a_href + '/' === path) {
+                    a.classList.add('active')
+                }
+            }
+        }
+
+        dynamic_navigation()
+
+        */
+
     new Vue({
         el: '#app',
         delimiters: ["[[", "]]"],
@@ -655,7 +673,7 @@
 
             },
 
-            }
+        }
 
     })
 

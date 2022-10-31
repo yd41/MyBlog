@@ -1,11 +1,10 @@
 from django.contrib import auth
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from app01.models import Articles, Tags, Cover
-
 from app01.utils.pagination import Pagination
-
 from app01.utils.random_code import random_code
 from app01.utils.sub_comment import sub_comment_list
 
@@ -24,19 +23,29 @@ def index(request):
         page_page_count=7
     )
 
-    article_list=article_list[pager.start:pager.end]
-
+    article_list = article_list[pager.start:pager.end]
 
     return render(request, 'index.html', locals())
 
 
 def search(request):
-    search_key=request.GET.get('key','')
+    search_key = request.GET.get('key', '')
+    order = request.GET.get('order', '')
+    tag = request.GET.get('tag', '')
+    word = request.GET.getlist('word')
 
-    article_list= Articles.objects.filter(title__contains=search_key)
-
-    # 分页器
+    article_list = Articles.objects.filter(title__contains=search_key)
     query_params = request.GET.copy()
+    if len(word) == 2:
+        article_list = article_list.filter(word__range=word)
+    if tag:
+        article_list = article_list.filter(tag__title=tag)
+    if order:
+        try:
+            article_list = article_list.order_by(order)
+        except Exception:
+            pass
+    # 分页器
     pager = Pagination(
         current_page=request.GET.get('page'),
         all_count=article_list.count(),
@@ -46,11 +55,15 @@ def search(request):
         page_page_count=7
     )
     article_list = article_list[pager.start:pager.end]
+
     return render(request, 'search.html', locals())
 
 
 def article(request, nid):
     article_query = Articles.objects.filter(nid=nid)
+
+    article_query.update(look_count=F('look_count') + 1)
+
     if not article_query:
         return redirect('/')
     article = article_query.first()
@@ -128,3 +141,7 @@ def edit_article(request, nid):
 
 def reset_password(request):
     return render(request, 'backend/reset_password.html', locals())
+
+
+def admin_home(request):
+    return render(request,'admin_home.html')
