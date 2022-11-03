@@ -78,3 +78,22 @@ def dynamic_navigation(request):
             continue
         nav_list.append(f'<a href="{k}">{v}</a>')
     return mark_safe(''.join(nav_list))
+
+
+# 生成广告
+@register.simple_tag
+def generate_advert(advert_list):
+    html_list=[]
+    for i in advert_list:
+        if i.img:
+            #上传的文件
+            html_list.append(f'<div><a href="{i.href}" target="_blank" title="{i.title}"><img src="{i.img.url}"></a></div>')
+            continue
+        html_s: str = i.img_list
+        html_new = html_s.replace('；', ';').replace('\n', ';')
+        img_list = html_new.split(';')
+        for url in img_list:
+            html_list.append(
+                f'<div><a href="{i.href}" target="_blank" title="{i.title}"><img src="{url}"></a></div>'
+            )
+        return mark_safe(''.join(html_list))

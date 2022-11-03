@@ -28,12 +28,12 @@
     <nav class="nav_bg">
 
         <div class="left" id="dynamic_nav">
-{#            <a href="/">首页</a>#}
-{#            <a href="/news">新闻</a>#}
-{#            <a href="/mods">心情</a>#}
-{#            <a href="/history">回忆录</a>#}
-{#            <a href="/about">关于</a>#}
-{#            <a href="/sites">网站导航</a>#}
+            {#            <a href="/">首页</a>#}
+            {#            <a href="/news">新闻</a>#}
+            {#            <a href="/mods">心情</a>#}
+            {#            <a href="/history">回忆录</a>#}
+            {#            <a href="/about">关于</a>#}
+            {#            <a href="/sites">网站导航</a>#}
             {% dynamic_navigation request %}
 
             <div class="search">
@@ -77,7 +77,7 @@
         {% block main %}
 
             <div class="main">
-
+                {% csrf_token %}
                 <div class="left">
 
                     <div class="boutique_article card">
@@ -136,15 +136,20 @@
 
                         </div>
                     </div>
-                    <div class="hot_list card">
+                    <div class="hotList card">
                         <div class="title">
                             <h2 id="pos">今日热搜</h2>
                             <div>
-                                <a href="#"> 查看更多</a>
+                                <a href="/news/"> 查看更多</a>
                             </div>
                         </div>
                         <div class="body">
-                            主要内容区域11
+                            <div v-for="item in news_list" :key="item.index">
+                                <span class="index">[[item.index]]</span>
+                                <a :href="item.link"
+                                   target="_blank">[[item.title]]</a>
+                                <span class="num">[[item.hotValue]]</span>
+                            </div>
 
                         </div>
                     </div>
@@ -199,19 +204,58 @@
                 </div>
 
                 <div class="right">
-                    <div class="advertisement card">
-                        <div class="title">
-                            <h2>独家广告</h2>
-                            <div>
-                                <a href="#">
-                                    申请
-                                </a>
+
+                    {% if advert_list.count %}
+                        <div class="advertisement card">
+                            <div class="title">
+                                <h2>独家广告</h2>
+                                <div>
+                                    <a href="#">
+                                        申请
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <div class="body">
+                                {% for advert in advert_list %}
+                                    <div>
+                                        <a href="{{ advert.href }}" target="_blank">
+                                            {% if advert.img %}
+                                                <img src="{{ advert.img.url }}" alt="" title="{{ advert.title }}">
+                                            {% else %}
+                                                {#                                            <img src="" alt="">#}
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+
                             </div>
                         </div>
-                        <div class="body">
-                            主要内容区域
+
+                    {% endif %}
+
+                    <div class="my_card">
+                        <div class="title">
+                            <h3>个人名片</h3>
+                            <h4>MY</h4>
+                            <h4>PROFILE</h4>
+                            <img src="/static/my/img/footer/wechat.png" alt="我的微信">
                         </div>
+                        <div class="jieqi">
+                            <img id="jieqiset" src="/static/my/img/24_hourse/1.png" alt="24节气">
+                        </div>
+                        <div class="footer">
+                            <p>NAME <span>{{ SITE_INFO.name }}</span></p>
+                            <p>JOB <span>{{ SITE_INFO.job }}</span></p>
+                            <p>ADDR <span>{{ SITE_INFO.address }}</span></p>
+                            <p>WEB <a target="_blank"
+                                      href="//{{ SITE_INFO.link }}">{{ SITE_INFO.link }}</a>
+                            </p>
+                        </div>
+
                     </div>
+
                     <div class="tags card">
                         <div class="title">
                             <h2>标签云</h2>
@@ -352,10 +396,15 @@
 
             slider_text: '显示悬浮目录',
             search_key: '',
-
-
-            slider_text: '显示悬浮目录'
-
+            news_list: [],//新闻列表
+            news_init: [
+                {name: '微博', id: 'KqndgxeLl9', url: 'http://www.fengfengzhidao.com/static/my/img/news/weibo.png'},
+                {name: '百度', id: 'Jb0vmloB1G', url: 'http://www.fengfengzhidao.com/static/my/img/news/baidu.png'},
+                {name: '知乎', id: 'mproPpoq6O', url: 'http://www.fengfengzhidao.com/static/my/img/news/zhihu.png'},
+                {name: '微信', id: 'WnBe01o371', url: 'http://www.fengfengzhidao.com/static/my/img/news/weixin.png'}
+            ],
+            news_active: '微博',
+            news_active_url: 'http://www.fengfengzhidao.com/static/my/img/news/weibo.png'
         },
         created() {
             this.init_theme()
@@ -370,12 +419,19 @@
             if (path.indexOf('search') !== -1) {
                 this.init_search_key()
             }
-
+            if (path.indexOf('news') !== -1) {
+                this.news_init_method(0)
+            }
+            if (path.indexOf('/') !== -1) {
+                this.news_init_method(1)
+            }
 
             setTimeout(() => {
                 this.get_sidebar()
                 this.code_copy()
             }, 200)
+
+
         },
         methods: {
             init_theme() {
@@ -672,6 +728,40 @@
 
 
             },
+
+            //获取热搜数据
+            get_new_data(id, name, url, flag, size) {
+                if (name === this.news_active && !flag) {
+                    return
+                }
+                this.news_active = name
+                this.news_active_url = url
+                let data = {
+                    id,
+                }
+                if (size) {
+                    data.size = size
+                }
+                axios.post('https://api.codelife.cc/api/top/list', data, {
+                        headers: {
+
+                            version: '1.3.19',
+                            signaturekey: 'U2FsdGVkX19TkI0rQnwGceHpJoa1XqXAgiPt4fxwcoQ=',
+
+                        }
+                    }
+                ).then(res => {
+                    this.news_list = res.data
+
+
+                    console.log(res)
+
+                })
+            },
+
+            news_init_method(size) {
+                this.get_new_data('微博', 'KqndgxeLl9', 'http://www.fengfengzhidao.com/static/my/img/news/weibo.png', size)
+            }
 
         }
 

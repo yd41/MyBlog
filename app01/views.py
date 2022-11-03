@@ -3,7 +3,7 @@ from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from app01.models import Articles, Tags, Cover
+from app01.models import *
 from app01.utils.pagination import Pagination
 from app01.utils.random_code import random_code
 from app01.utils.sub_comment import sub_comment_list
@@ -24,6 +24,8 @@ def index(request):
     )
 
     article_list = article_list[pager.start:pager.end]
+
+    advert_list = Advert.objects.filter(is_show=True)
 
     return render(request, 'index.html', locals())
 
@@ -144,4 +146,4 @@ def reset_password(request):
 
 
 def admin_home(request):
-    return render(request,'admin_home.html')
+    return render(request, 'admin_home.html')

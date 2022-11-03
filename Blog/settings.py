@@ -144,3 +144,11 @@ SIMPLEUI_HOME_ACTION=False # 关闭最近活动
 # SIMPLEUI_HOME_TITLE='首页'
 # SIMPLEUI_HOME_ICON='fa fa-user'
 
+# 网站的一些信息
+SITE_INFO = {
+    'name': '我是某某某',
+    'job': '我的工作',
+    'address': '我的地址',
+    'link': 'www.fengfengzhidao.com',
+    'date': '2021-12-29'  # 建站日期
+}

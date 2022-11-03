@@ -20,3 +20,5 @@ def is_article_list(article_list):
     if len(article_list):
         return 'search_content'
     return 'no_content'
+
+
